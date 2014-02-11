@@ -14,5 +14,12 @@ default[:mongodb][:mms_agent][:install_munin] = true
 # this is the debian package name
 default[:mongodb][:mms_agent][:munin_package] = 'munin-node'
 default[:mongodb][:mms_agent][:enable_munin] = true
-
 default[:mongodb][:mms_agent][:require_valid_server_cert] = false
+
+# gem and pip dependency pinning
+default['mongodb']['mms_agent']['python_packages'] = {
+    :pymongo => nil
+}
+default['mongodb']['mms_agent']['ruby_gems'] = {
+    :rubyzip => nil
+}

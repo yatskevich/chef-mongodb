@@ -6,18 +6,38 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+
+# python dependencies
 include_recipe 'python'
 
 require 'fileutils'
-chef_gem 'rubyzip'
+node['mongodb']['mms_agent']['ruby_gems'].each do |name, version|
+  if Gem.const_defined?('Version') && Gem::Version.new(Chef::VERSION) < Gem::Version.new('10.12.0')
+    gem_package g do
+      version version
+      action :nothing
+    end.run_action(:install)
+    Gem.clear_paths
+  else
+    chef_gem g do
+      version version
+      action :install
+    end
+  end
+end
 
 # munin-node for hardware info
 package node.mongodb.mms_agent.munin_package do
   action :install
   only_if { node.mongodb.mms_agent.install_munin }
 end
-# python dependencies
-python_pip 'pymongo'
+
+node['mongodb']['mms_agent']['python_packages'].each do |name, version|
+  python_pip name do
+    version version
+    action :install
+  end
+end
 
 # download, and unzip if it's changed
 package 'unzip'
