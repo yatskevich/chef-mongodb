@@ -10,11 +10,6 @@ file node['mongodb']['sysconfig_file'] do
   action :create_if_missing
 end
 
-# set a default replSet for you (backward compat)
-if node['mongodb']['is_replicaset'] && node['mongodb']['config']['replSet'].nil?
-  node.default['mongodb']['config']['replSet'] = 'rs_default'
-end
-
 # just-in-case config file drop
 template node['mongodb']['dbconfig_file'] do
   cookbook node['mongodb']['template_cookbook']
