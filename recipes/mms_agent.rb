@@ -6,10 +6,10 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-include_recipe 'python'
 
 require 'fileutils'
-chef_gem 'rubyzip'
+include_recipe 'python'
+include_recipe 'mongodb::mongo_gem'
 
 # munin-node for hardware info
 package node.mongodb.mms_agent.munin_package do
@@ -17,7 +17,10 @@ package node.mongodb.mms_agent.munin_package do
   only_if { node.mongodb.mms_agent.install_munin }
 end
 # python dependencies
-python_pip 'pymongo'
+python_pip 'pymongo' do
+    version node['mongodb']['mms_agent']['pymongo_version']
+    action :install
+end
 
 # download, and unzip if it's changed
 package 'unzip'
