@@ -21,6 +21,8 @@
 
 node.set['mongodb']['is_shard'] = true
 ndoe.set['mongodb']['shard_name'] = node['mongodb']['shard_name']
+node.set['mongodb']['is_replicaset'] = node['mongodb']['is_replicaset']
+node.set['mongodb']['cluster_name'] = node['mongodb']['cluster_name']
 
 include_recipe 'mongodb::install'
 
