@@ -19,6 +19,11 @@
 
 node.set[:mongodb][:is_replicaset] = true
 
+# taken from https://github.com/edelight/chef-mongodb/pull/243/files
+# fixes https://github.com/edelight/chef-mongodb/issues/199
+node.set[:mongodb][:cluster_name]=  node['mongodb']['cluster_name']
+node.set[:mongodb][:shard_name]=  node['mongodb']['shard_name']
+
 include_recipe 'mongodb::install'
 include_recipe 'mongodb::mongo_gem'
 
